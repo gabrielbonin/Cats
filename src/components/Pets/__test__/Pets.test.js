@@ -47,7 +47,7 @@ describe('Pets', () => {
 
     userEvent.selectOptions(screen.getByLabelText(/favoured/i), 'favoured');
 
-    expect(screen.getByRole('article')).toStrictEqual([cards[0], cards[3]]);
+    expect(screen.getAllByRole('article')).toStrictEqual([cards[0], cards[3]]);
   });
 
   test('should filter for not favoured cats', async () => {
@@ -61,7 +61,7 @@ describe('Pets', () => {
       'not favoured',
     );
 
-    expect(screen.getByRole('article')).toStrictEqual([
+    expect(screen.getAllByRole('article')).toStrictEqual([
       cards[1],
       cards[2],
       cards[4],
