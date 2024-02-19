@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Filter from '../Filter';
 
+beforeEach(() => render(<Filter filters={{}} setFilters={() => {}} />));
+
 describe('Filter', () => {
   test('should be able to change value of favoured select', () => {
-    render(<Filter />);
-
     const select = screen.getByLabelText(/favoured/i);
     expect(select.value).toBe('any');
 
@@ -17,8 +17,6 @@ describe('Filter', () => {
   });
 
   test('should be able to change value of gender select', () => {
-    render(<Filter />);
-
     const select = screen.getByLabelText(/gender/i);
     expect(select.value).toBe('any');
 

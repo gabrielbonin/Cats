@@ -1,10 +1,10 @@
 import './App.css';
-import Cards from './components/Cards/Cards';
-import cats from './mocks/cats.json';
+import Pets from './components/Pets/Pets';
+
 function App() {
   return (
     <div className="App">
-      <Cards cats={cats} />
+      <Pets />
     </div>
   );
 }
