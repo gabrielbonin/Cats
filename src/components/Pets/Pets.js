@@ -1,9 +1,9 @@
-import axios from 'axios';
 import './Pets.css';
-
-import Cards from '../Cards/Cards';
 import Filter from '../Filter/Filter';
-import { createContext, useEffect, useState } from 'react';
+import Cards from '../Cards/Cards';
+
+import axios from 'axios';
+import { useState, useEffect, createContext } from 'react';
 
 export const PetsContext = createContext({
   cats: [],
@@ -34,15 +34,12 @@ const Pets = () => {
       catsFiltered = catsFiltered.filter(cat => cat.gender === filters.gender);
     }
     if (filters.favoured !== 'any') {
-      catsFiltered = catsFiltered.filter(
-        cat => cat.favoured === filters.favoured,
-      );
+      catsFiltered = catsFiltered.filter(cat => {
+        return cat.favoured === filters.favoured;
+      });
     }
     setFilteredCats(catsFiltered);
   }, [filters]);
-
-  console.log('cats: ', cats);
-  console.log('filters: ', filters);
 
   return (
     <div className="container">

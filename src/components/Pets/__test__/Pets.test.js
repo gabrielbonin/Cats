@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react';
 import Pets from '../Pets';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import catsMock from '../../mocks/cats.json';
+import catsMock from '../../../mocks/cats.json';
 import userEvent from '@testing-library/user-event';
 
 const server = setupServer(
@@ -24,14 +24,14 @@ describe('Pets', () => {
 
   test('should filter for male cats', async () => {
     const cards = await screen.findAllByRole('article');
-    userEvent.selectOptions(screen.getByLabelText(/gender/i));
+    userEvent.selectOptions(screen.getByLabelText(/gender/i), 'male');
 
     expect(screen.getAllByRole('article')).toStrictEqual([cards[1], cards[3]]);
   });
 
   test('should filter for female cats', async () => {
     const cards = await screen.findAllByRole('article');
-    userEvent.selectOptions(screen.getByLabelText(/gender/i));
+    userEvent.selectOptions(screen.getByLabelText(/gender/i), 'female');
 
     expect(screen.getAllByRole('article')).toStrictEqual([
       cards[0],
@@ -42,18 +42,16 @@ describe('Pets', () => {
 
   test('should filter for favoured cats', async () => {
     const cards = await screen.findAllByRole('article');
-
     userEvent.click(within(cards[0]).getByRole('button'));
     userEvent.click(within(cards[3]).getByRole('button'));
 
-    userEvent.selectOptions(screen.getByLabelText(/favoured/i), 'favoured');
+    userEvent.selectOptions(screen.getByLabelText(/favourite/i), 'favoured');
 
     expect(screen.getAllByRole('article')).toStrictEqual([cards[0], cards[3]]);
   });
 
   test('should filter for not favoured cats', async () => {
     const cards = await screen.findAllByRole('article');
-
     userEvent.click(within(cards[0]).getByRole('button'));
     userEvent.click(within(cards[3]).getByRole('button'));
 
@@ -71,9 +69,10 @@ describe('Pets', () => {
 
   test('should filter for favoured male cats', async () => {
     const cards = await screen.findAllByRole('article');
-
     userEvent.click(within(cards[0]).getByRole('button'));
     userEvent.click(within(cards[3]).getByRole('button'));
+
+    userEvent.selectOptions(screen.getByLabelText(/favourite/i), 'favoured');
 
     userEvent.selectOptions(screen.getByLabelText(/gender/i), 'male');
 
