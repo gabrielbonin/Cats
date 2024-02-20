@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import Card from '../Card';
 import userEvent from '@testing-library/user-event';
+import { PetsContext } from '../Pets/Pets';
+import cats from '../../mocks/cats.json';
 
 const cardProps = {
   name: 'Garfield',
@@ -15,9 +17,17 @@ const cardProps = {
   index: 1,
 };
 
+const renderCardComponentWithProvider = props => {
+  return render(
+    <PetsContext.Provider value={{ cats, setCats: () => {} }}>
+      <Card {...props} />
+    </PetsContext.Provider>,
+  );
+};
+
 describe('Card', () => {
   test('should show name of cat', () => {
-    render(<Card {...cardProps} />);
+    renderCardComponentWithProvider(cardProps);
 
     expect(
       screen.getByRole('heading', {
@@ -27,25 +37,24 @@ describe('Card', () => {
   });
 
   test('should show phone number', () => {
-    render(<Card {...cardProps} />);
+    renderCardComponentWithProvider(cardProps);
 
     expect(screen.getByText(/111-111-11111/i)).toBeInTheDocument();
   });
 
   test('should show email', () => {
-    render(<Card {...cardProps} />);
-
+    renderCardComponentWithProvider(cardProps);
     expect(screen.getByText(/bonin@gmail.com/i)).toBeInTheDocument();
   });
 
   test('should show image with correct src', () => {
-    render(<Card {...cardProps} />);
+    renderCardComponentWithProvider(cardProps);
 
     expect(screen.getByAltText(/cute cat/i).src).toBe(cardProps.image.url);
   });
 
   test('should show outlined heart', () => {
-    render(<Card {...cardProps} />);
+    renderCardComponentWithProvider(cardProps);
 
     expect(screen.queryByAltText(/filled heart/i)).not.toBeInTheDocument();
 
@@ -54,6 +63,7 @@ describe('Card', () => {
 
   test('should show filled heart', () => {
     render(<Card {...cardProps} favoured={true} />);
+    renderCardComponentWithProvider({ ...cardProps, favoured: true });
 
     expect(screen.queryByAltText(/outlined heart/i)).not.toBeInTheDocument();
 
@@ -61,7 +71,7 @@ describe('Card', () => {
   });
 
   test('should toggle heart status', () => {
-    render(<Card {...cardProps} />);
+    renderCardComponentWithProvider(cardProps);
 
     userEvent.click(screen.getByRole('button'));
 

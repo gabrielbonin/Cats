@@ -10,6 +10,7 @@ const server = setupServer(
     return res(ctx.status(200), ctx.json(catsMock));
   }),
 );
+
 beforeEach(() => render(<Pets />));
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
