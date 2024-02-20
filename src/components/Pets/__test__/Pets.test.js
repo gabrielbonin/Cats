@@ -6,7 +6,7 @@ import catsMock from '../../../mocks/cats.json';
 import userEvent from '@testing-library/user-event';
 
 const server = setupServer(
-  rest.get('http://localhost:4000/cats', (req, res, ctx) => {
+  rest.get('http://localhost:4000/cats', (res, ctx) => {
     return res(ctx.status(200), ctx.json(catsMock));
   }),
 );
@@ -45,7 +45,7 @@ describe('Pets', () => {
     userEvent.click(within(cards[0]).getByRole('button'));
     userEvent.click(within(cards[3]).getByRole('button'));
 
-    userEvent.selectOptions(screen.getByLabelText(/favourite/i), 'favoured');
+    userEvent.selectOptions(screen.getByLabelText(/favoured/i), 'favoured');
 
     expect(screen.getAllByRole('article')).toStrictEqual([cards[0], cards[3]]);
   });
@@ -55,10 +55,7 @@ describe('Pets', () => {
     userEvent.click(within(cards[0]).getByRole('button'));
     userEvent.click(within(cards[3]).getByRole('button'));
 
-    userEvent.selectOptions(
-      screen.getByLabelText(/favourite/i),
-      'not favoured',
-    );
+    userEvent.selectOptions(screen.getByLabelText(/favoured/i), 'not favoured');
 
     expect(screen.getAllByRole('article')).toStrictEqual([
       cards[1],
@@ -72,7 +69,7 @@ describe('Pets', () => {
     userEvent.click(within(cards[0]).getByRole('button'));
     userEvent.click(within(cards[3]).getByRole('button'));
 
-    userEvent.selectOptions(screen.getByLabelText(/favourite/i), 'favoured');
+    userEvent.selectOptions(screen.getByLabelText(/favoured/i), 'favoured');
 
     userEvent.selectOptions(screen.getByLabelText(/gender/i), 'male');
 
